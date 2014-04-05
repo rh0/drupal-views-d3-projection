@@ -1,0 +1,9 @@
+name = D3 AlbersUS Projection Integration
+description = Provides the display of a d3.js map taking data from a view.
+package = d3-projection
+core = 7.x
+
+files[] = d3_projection.module
+files[] = views/d3_projection.views.inc
+files[] = views/d3_projection_style_albers.inc
+files[] = views/d3-projection-map.tpl.php

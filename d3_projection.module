@@ -1,0 +1,44 @@
+<?php
+
+/*function d3_projection_views_plugins_alter(&$plugins) {
+  dsm($plugins);
+}*/
+
+function d3_projection_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'd3_projection') . '/views',
+  );
+}
+
+function template_preprocess_d3_projection_map(&$vars) {
+  drupal_add_js("http://d3js.org/d3.v3.min.js");
+  drupal_add_js("http://d3js.org/topojson.v1.min.js");
+  drupal_add_js(drupal_get_path('module', 'd3_projection') . '/js/projection.js');
+  drupal_add_js(array('d3_projection' => array('map_data' => _d3_projection_parse_rows($vars['rows']))), 'setting');
+}
+
+
+function _d3_projection_parse_rows($rows) {
+  $map_data = array();
+  foreach($rows as $row) {
+    $map_data[] = array(
+      'node_title' => $row->node_title,
+      'lon' => $row->field_field_geo_coords[0]['raw']['lon'],
+      'lat' => $row->field_field_geo_coords[0]['raw']['lat'],
+    );
+  }
+  return drupal_json_encode( $map_data );
+
+}
+/**
+ * Implements hook_theme().
+ */
+function d3_projection_theme($existing, $type, $theme, $path) {
+  return array(
+    'd3_projection_map' => array(
+      'variables' => array('args' => NULL),
+      'template' => 'views/d3-projection-map',
+    ),
+  );
+}
