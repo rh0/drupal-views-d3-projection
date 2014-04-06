@@ -12,10 +12,19 @@ function d3_projection_views_api() {
 }
 
 function template_preprocess_d3_projection_map(&$vars) {
+  $path = drupal_get_path('module', 'd3_projection');
+
+  // d3 libs
   drupal_add_js("http://d3js.org/d3.v3.min.js");
   drupal_add_js("http://d3js.org/topojson.v1.min.js");
+  // Our data from the view
+  drupal_add_js(array('d3Projection' => array('mapData' => _d3_projection_parse_rows($vars['rows']))), 'setting');
+  // TopoJSON data.
+  drupal_add_js(array('d3Projection' => array('pathToTopo' => $path . '/us.json')), 'setting');
+  // The D3 scripts.
   drupal_add_js(drupal_get_path('module', 'd3_projection') . '/js/projection.js');
-  drupal_add_js(array('d3_projection' => array('map_data' => _d3_projection_parse_rows($vars['rows']))), 'setting');
+  // Styles for the map
+  drupal_add_css($path . '/d3_projection.css');
 }
 
 
@@ -28,8 +37,7 @@ function _d3_projection_parse_rows($rows) {
       'lat' => $row->field_field_geo_coords[0]['raw']['lat'],
     );
   }
-  return drupal_json_encode( $map_data );
-
+  return $map_data;
 }
 /**
  * Implements hook_theme().
