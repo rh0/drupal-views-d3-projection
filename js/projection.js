@@ -4,8 +4,7 @@ Drupal.behaviors.d3Projection = {
   attach: function (context) {
     var data = Drupal.settings.d3Projection.mapData;
     var topoPath = Drupal.settings.d3Projection.pathToTopo;
-    console.log(data);
-    console.log(topoPath);
+    var pinPath = Drupal.settings.d3Projection.pathToPin;
 
     var width = 960,
         height = 500;
@@ -49,18 +48,17 @@ Drupal.behaviors.d3Projection = {
                   .data(data)
                   .enter()
                   .append("svg:image")
-                  .attr("xlink:href", "pin.png")
+                  .attr("xlink:href", pinPath)
                   .attr("class", "pin")
                   .attr("width", 16)
                   .attr("height", 18)
                   .attr("transform", transform)
                   .on("mouseover", function(d) {
                     var mousePos = d3.mouse(svg.node());
-                    console.log(mousePos);
                     div.transition(200)
                       .duration(200)
                       .style("opacity", .9);
-                    div.html(d.city + ', ' + d.state)
+                    div.html(d.node_title)
                       .style("left", (mousePos[0] + 25) + "px")
                       .style("top", (mousePos[1]) + "px");
                   })
@@ -79,7 +77,7 @@ Drupal.behaviors.d3Projection = {
           pin.attr("width", 16 / d3.event.scale)
               .attr("height", 18 / d3.event.scale)
               .attr("transform", function(d) {
-                  coords = [+(-d.lon), +d.lat];
+                  coords = [+d.lon, +d.lat];
                   var position = projection(coords);
                   d.position.x = position[0] - (8 / d3.event.scale);
                   d.position.y = position[1] - (18 / d3.event.scale);
@@ -88,7 +86,7 @@ Drupal.behaviors.d3Projection = {
         }
 
         function transform(d) {
-          coords = [+(-d.lon), +d.lat];
+          coords = [+d.lon, +d.lat];
           d.position = projection(coords);
           return "translate(" + (d.position[0] - 8) + "," + (d.position[1]-18) + ")";
         }

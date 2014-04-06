@@ -21,8 +21,10 @@ function template_preprocess_d3_projection_map(&$vars) {
   drupal_add_js(array('d3Projection' => array('mapData' => _d3_projection_parse_rows($vars['rows']))), 'setting');
   // TopoJSON data.
   drupal_add_js(array('d3Projection' => array('pathToTopo' => $path . '/us.json')), 'setting');
+  // Add the path to pin
+  drupal_add_js(array('d3Projection' => array('pathToPin' => $path . '/pin.png')), 'setting');
   // The D3 scripts.
-  drupal_add_js(drupal_get_path('module', 'd3_projection') . '/js/projection.js');
+  drupal_add_js($path . '/js/projection.js');
   // Styles for the map
   drupal_add_css($path . '/d3_projection.css');
 }
