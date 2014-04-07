@@ -58,7 +58,7 @@ Drupal.behaviors.d3Projection = {
                     div.transition(200)
                       .duration(200)
                       .style("opacity", .9);
-                    div.html(d.node_title)
+                    div.html(d.toolTipImg + d.node_title)
                       .style("left", (mousePos[0] + 25) + "px")
                       .style("top", (mousePos[1]) + "px");
                   })

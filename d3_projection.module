@@ -34,7 +34,8 @@ function _d3_projection_parse_rows($rows) {
   $map_data = array();
   foreach($rows as $row) {
     $map_data[] = array(
-      'node_title' => $row->node_title,
+      'node_title' => '<h2>' . $row->node_title . '<h2>',
+      'toolTipImg' => render( $row->field_field_tooltip[0]['rendered'] ),
       'lon' => $row->field_field_geo_coords[0]['raw']['lon'],
       'lat' => $row->field_field_geo_coords[0]['raw']['lat'],
     );
