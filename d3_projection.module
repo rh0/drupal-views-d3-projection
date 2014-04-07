@@ -17,18 +17,22 @@ function template_preprocess_d3_projection_map(&$vars) {
   // d3 libs
   drupal_add_js("http://d3js.org/d3.v3.min.js");
   drupal_add_js("http://d3js.org/topojson.v1.min.js");
-  // Our data from the view
-  drupal_add_js(array('d3Projection' => array('mapData' => _d3_projection_parse_rows($vars['rows']))), 'setting');
-  // TopoJSON data.
-  drupal_add_js(array('d3Projection' => array('pathToTopo' => $path . '/us.json')), 'setting');
-  // Add the path to pin
-  drupal_add_js(array('d3Projection' => array('pathToPin' => $path . '/pin.png')), 'setting');
-  // The D3 scripts.
+  // Send our data object to javascript
+  drupal_add_js(array('d3Projection' => _d3_projection_build_data_array($vars['rows'])), 'setting');
+  // The D3 projection script.
   drupal_add_js($path . '/js/projection.js');
   // Styles for the map
   drupal_add_css($path . '/d3_projection.css');
 }
 
+function _d3_projection_build_data_array($rows) {
+  $module_path = drupal_get_path('module', 'd3_projection');
+  return array(
+    'pathToPin' => $module_path . '/pin.png',
+    'pathToTopo' => $module_path . '/us.json',
+    'mapData' => _d3_projection_parse_rows($rows),
+  );
+}
 
 function _d3_projection_parse_rows($rows) {
   $map_data = array();
