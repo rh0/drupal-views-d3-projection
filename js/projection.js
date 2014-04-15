@@ -6,11 +6,11 @@ Drupal.behaviors.d3Projection = {
     var topoPath = Drupal.settings.d3Projection.pathToTopo;
     var pinPath = Drupal.settings.d3Projection.pathToPin;
 
-    var width = 720,
-        height = 500;
+    var width = Drupal.settings.d3Projection.options.width,
+        height = Drupal.settings.d3Projection.options.height;
 
     var projection = d3.geo.albersUsa()
-        .scale(1000)
+        .scale(650)
         .translate([width / 2, height / 2]);
 
     var path = d3.geo.path()
